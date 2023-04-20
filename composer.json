@@ -32,11 +32,11 @@
     "twig/twig": "<1.34|>=2.0,<2.4"
   },
   "require": {
-    "php": "^7.1",
+    "php": "^7.1|^8.0",
     "ext-intl": "*",
     "symfony/framework-bundle": "^3.0 || ^4.0 || ^5.0",
     "doctrine/orm": "^2.5",
-    "moneyphp/money": "^3.1"
+    "moneyphp/money": "^4.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^7.0",
