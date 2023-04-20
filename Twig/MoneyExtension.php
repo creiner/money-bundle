@@ -40,7 +40,7 @@ class MoneyExtension extends AbstractExtension
     public function moneyFilter(Money $money, $scale = 2, $groupingUsed = self::GROUPING_USED, $format = self::FORMAT_CURRENCY)
     {
         $noFormatter = new NumberFormatter($this->locale, $format === self::FORMAT_CURRENCY ? NumberFormatter::CURRENCY : NumberFormatter::DECIMAL);
-        $noFormatter->setAttribute(NumberFormatter::GROUPING_USED, $groupingUsed);
+        $noFormatter->setAttribute(NumberFormatter::GROUPING_USED, (int) $groupingUsed);
         $noFormatter->setAttribute(NumberFormatter::FRACTION_DIGITS, $scale);
 
         $intlFormatter = new IntlMoneyFormatter($noFormatter, new ISOCurrencies());
