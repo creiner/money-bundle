@@ -17,23 +17,20 @@ use Twig\TwigFilter;
  */
 class MoneyExtension extends AbstractExtension
 {
-    const FORMAT_CURRENCY = true;
-    const FORMAT_DECIMAL  = false;
+    final public const FORMAT_CURRENCY = true;
+    final public const FORMAT_DECIMAL  = false;
 
-    const GROUPING_USED = true;
-    const GROUPING_NONE = false;
+    final public const GROUPING_USED = true;
+    final public const GROUPING_NONE = false;
 
-    private $locale;
-
-    public function __construct($locale)
+    public function __construct(private $locale)
     {
-        $this->locale = $locale;
     }
 
     public function getFilters()
     {
         return [
-            new TwigFilter('money', [$this, 'moneyFilter']),
+            new TwigFilter('money', $this->moneyFilter(...)),
         ];
     }
 

@@ -16,7 +16,7 @@ class JKMoneyExtensionTest extends TestCase
         $container = new ContainerBuilder();
         $loader = new JKMoneyExtension();
         $config = [];
-        $loader->load(array($config), $container);
+        $loader->load([$config], $container);
     }
 
     public function testInvalidConfigurationException()
@@ -26,32 +26,32 @@ class JKMoneyExtensionTest extends TestCase
         $container->setParameter('kernel.default_locale', 'xx');
         $loader = new JKMoneyExtension();
         $config = [];
-        $loader->load(array($config), $container);
+        $loader->load([$config], $container);
     }
 
     public function testLoadFormConfiguration()
     {
-        if (false === interface_exists('Twig\Extension\ExtensionInterface')) {
+        if (false === interface_exists(\Twig\Extension\ExtensionInterface::class)) {
             $this->markTestSkipped('Package `twig/twig` is not available.');
         }
         $container = new ContainerBuilder();
         $container->setParameter('kernel.default_locale', 'cs');
         $loader = new JKMoneyExtension();
         $config = [];
-        $loader->load(array($config), $container);
-        $this->assertTrue($container->hasDefinition('JK\MoneyBundle\Form\Type\MoneyType'));
+        $loader->load([$config], $container);
+        $this->assertTrue($container->hasDefinition(\JK\MoneyBundle\Form\Type\MoneyType::class));
     }
 
     public function testLoadTwigConfiguration()
     {
-        if (false === interface_exists('Symfony\Component\Form\FormInterface')) {
+        if (false === interface_exists(\Symfony\Component\Form\FormInterface::class)) {
             $this->markTestSkipped('Package `symfony/form` is not available.');
         }
         $container = new ContainerBuilder();
         $container->setParameter('kernel.default_locale', 'cs');
         $loader = new JKMoneyExtension();
         $config = [];
-        $loader->load(array($config), $container);
-        $this->assertTrue($container->hasDefinition('JK\MoneyBundle\Twig\MoneyExtension'));
+        $loader->load([$config], $container);
+        $this->assertTrue($container->hasDefinition(\JK\MoneyBundle\Twig\MoneyExtension::class));
     }
 }

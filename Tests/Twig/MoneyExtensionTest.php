@@ -22,7 +22,7 @@ class MoneyExtensionTest extends TestCase
         $extension = new MoneyExtension('cs_CZ');
 
         $this->assertEquals(
-            [new TwigFilter('money', [$extension, 'moneyFilter'])],
+            [new TwigFilter('money', $extension->moneyFilter(...))],
             $extension->getFilters()
         );
     }

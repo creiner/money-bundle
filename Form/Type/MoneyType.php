@@ -20,7 +20,7 @@ class MoneyType extends AbstractType
 	/** @var \Money\Currency **/
 	protected $currency;
 
-	protected static $patterns = array();
+	protected static $patterns = [];
 
 	/**
 	 * @param string $currencyCode ISO currency code
@@ -58,13 +58,7 @@ class MoneyType extends AbstractType
 	 */
 	public function configureOptions(OptionsResolver $resolver)
 	{
-		$resolver->setDefaults(array(
-			'currency' => $this->currency,
-			'scale' => 2,
-			'grouping' => false,
-			'compound' => false,
-			'currencies' => null
-		));
+		$resolver->setDefaults(['currency' => $this->currency, 'scale' => 2, 'grouping' => false, 'compound' => false, 'currencies' => null]);
 		$resolver->setNormalizer('currency', function (OptionsResolver $resolver, $currency) {
 			if (!$currency instanceof Currency) {
 				@trigger_error('Passing a currency as string is deprecated since 1.1 and will be removed in 2.0. Please pass a '.Currency::class.' instance instead.', E_USER_DEPRECATED);
@@ -73,8 +67,8 @@ class MoneyType extends AbstractType
 
 			return $currency;
 		});
-		$resolver->setAllowedTypes('currency', array('string', Currency::class));
-		$resolver->setAllowedTypes('currencies', array('null', Currencies::class));
+		$resolver->setAllowedTypes('currency', ['string', Currency::class]);
+		$resolver->setAllowedTypes('currencies', ['null', Currencies::class]);
 	}
 
 	/**
@@ -103,7 +97,7 @@ class MoneyType extends AbstractType
 		$locale = Locale::getDefault();
 
 		if (!isset(self::$patterns[$locale])) {
-			self::$patterns[$locale] = array();
+			self::$patterns[$locale] = [];
 		}
 
 		if (!isset(self::$patterns[$locale][$currency])) {
