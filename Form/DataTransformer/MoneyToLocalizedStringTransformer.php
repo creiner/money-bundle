@@ -53,7 +53,7 @@ class MoneyToLocalizedStringTransformer extends NumberToLocalizedStringTransform
      * @throws TransformationFailedException If the given value is not numeric or
      *                                       if the value can not be transformed.
      */
-    public function transform($value)
+    public function transform(mixed $value): string
     {
         if (null === $value) {
             return '';
@@ -74,7 +74,7 @@ class MoneyToLocalizedStringTransformer extends NumberToLocalizedStringTransform
      * @throws TransformationFailedException If the given value is not a string
      *                                       or if the value can not be transformed.
      */
-    public function reverseTransform($value)
+    public function reverseTransform(mixed $value): int|float|null
     {
         $value = parent::reverseTransform($value);
 
@@ -82,7 +82,7 @@ class MoneyToLocalizedStringTransformer extends NumberToLocalizedStringTransform
 
         try {
             $money = $moneyParser->parse(sprintf('%.53f', $value), $this->currency);
-            return $money;
+            return $money->getAmount()/100;
         } catch (ParserException $e) {
             throw new TransformationFailedException($e->getMessage());
         }
