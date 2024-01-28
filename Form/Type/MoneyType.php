@@ -2,10 +2,10 @@
 
 namespace JK\MoneyBundle\Form\Type;
 
+use JK\MoneyBundle\Form\DataTransformer\MoneyToLocalizedStringTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormBuilderInterface;
-use JK\MoneyBundle\Form\DataTransformer\MoneyToLocalizedStringTransformer;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Money\Currencies;
@@ -18,14 +18,14 @@ use NumberFormatter, Locale;
 class MoneyType extends AbstractType
 {
 	/** @var \Money\Currency **/
-	protected $currency;
+	protected Currency $currency;
 
-	protected static $patterns = [];
+	protected static array $patterns = [];
 
 	/**
 	 * @param string $currencyCode ISO currency code
 	 */
-	public function __construct($currencyCode)
+	public function __construct(string $currencyCode)
 	{
 		$this->currency = new Currency($currencyCode);
 	}
@@ -33,17 +33,19 @@ class MoneyType extends AbstractType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function buildForm(FormBuilderInterface $builder, array $options)
-	{
-		$builder
-			->addViewTransformer(new MoneyToLocalizedStringTransformer(
-				$options['currency'],
-				$options['scale'],
-				$options['grouping'],
-				$options['currencies']
-			))
-		;
-	}
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->addViewTransformer(
+                new MoneyToLocalizedStringTransformer(
+                    $options['currency'],
+                    $options['scale'],
+                    $options['grouping'],
+                    $options['currencies']
+                )
+            )
+        ;
+    }
 
 	/**
 	 * {@inheritdoc}
