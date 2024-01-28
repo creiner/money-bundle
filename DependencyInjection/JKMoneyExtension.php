@@ -1,12 +1,14 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace JK\MoneyBundle\DependencyInjection;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
  * This class that loads and manages bundle configuration.
@@ -15,16 +17,13 @@ use Symfony\Component\DependencyInjection\Loader;
  */
 class JKMoneyExtension extends Extension implements PrependExtensionInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function load(array $configs, ContainerBuilder $container)
     {
         $locale = $container->getParameter('kernel.default_locale');
         $configuration = new Configuration($locale);
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
+        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
 
         if (interface_exists(\Symfony\Component\Form\FormInterface::class)) {
@@ -38,9 +37,6 @@ class JKMoneyExtension extends Extension implements PrependExtensionInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function prepend(ContainerBuilder $container)
     {
         $container->prependExtensionConfig('doctrine', [
@@ -48,10 +44,10 @@ class JKMoneyExtension extends Extension implements PrependExtensionInterface
                 'mappings' => [
                     'JKMoneyBundle' => [
                         'type' => 'xml',
-                        'prefix' => 'Money'
-                    ]
-                ]
-            ]
+                        'prefix' => 'Money',
+                    ],
+                ],
+            ],
         ]);
     }
 }

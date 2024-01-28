@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /*
  * This file is part of the Symfony package.
@@ -11,13 +13,12 @@
 
 namespace JK\MoneyBundle\Tests\Form\DataTransformer;
 
-use PHPUnit\Framework\TestCase;
 use JK\MoneyBundle\Form\DataTransformer\MoneyToLocalizedStringTransformer;
-use Money\Money;
-use Money\Currency;
 use Money\Currencies\BitcoinCurrencies;
+use Money\Currency;
+use Money\Money;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Intl\Util\IntlTestHelper;
-use Locale;
 
 class MoneyToLocalizedStringTransformerTest extends TestCase
 {
@@ -40,30 +41,30 @@ class MoneyToLocalizedStringTransformerTest extends TestCase
     /**
      * @dataProvider dataProvider
      */
-    public function testDataTransform($locale, $currency, $scale, $grouping, $input, $output, $currencies)
+    public function testDataReverseTransform($locale, $currency, $scale, $grouping, $input, $output, $currencies)
     {
         IntlTestHelper::requireFullIntl($this, false);
 
-        Locale::setDefault($locale);
+        \Locale::setDefault($locale);
         $transformer = new MoneyToLocalizedStringTransformer($currency, $scale, $grouping, $currencies);
 
         $input = new Money($input, $currency);
 
-        $this->assertEquals($output, $transformer->transform($input));
+        $this->assertSame($input, $transformer->reverseTransform($output));
     }
 
     /**
      * @dataProvider dataProvider
      */
-    public function testDataReverseTransform($locale, $currency, $scale, $grouping, $input, $output, $currencies)
+    public function testDataTransform($locale, $currency, $scale, $grouping, $input, $output, $currencies)
     {
         IntlTestHelper::requireFullIntl($this, false);
 
-        Locale::setDefault($locale);
+        \Locale::setDefault($locale);
         $transformer = new MoneyToLocalizedStringTransformer($currency, $scale, $grouping, $currencies);
 
         $input = new Money($input, $currency);
 
-        $this->assertEquals($input, $transformer->reverseTransform($output));
+        $this->assertSame($output, $transformer->transform($input));
     }
 }

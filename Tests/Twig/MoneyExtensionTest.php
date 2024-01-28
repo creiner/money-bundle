@@ -1,30 +1,22 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace JK\MoneyBundle\Tests\Twig;
 
-use PHPUnit\Framework\TestCase;
 use JK\MoneyBundle\Twig\MoneyExtension;
-use Symfony\Component\Intl\Util\IntlTestHelper;
-use Money\Money;
 use Money\Currency;
+use Money\Money;
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\Intl\Util\IntlTestHelper;
 use Twig\TwigFilter;
-use Locale;
 
 class MoneyExtensionTest extends TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         IntlTestHelper::requireFullIntl($this, false);
         parent::setUp();
-    }
-    public function testGetFilters()
-    {
-        $extension = new MoneyExtension('cs_CZ');
-
-        $this->assertEquals(
-            [new TwigFilter('money', $extension->moneyFilter(...))],
-            $extension->getFilters()
-        );
     }
 
     public function dataProvider()
@@ -42,15 +34,25 @@ class MoneyExtensionTest extends TestCase
         ];
     }
 
+    public function testGetFilters()
+    {
+        $extension = new MoneyExtension('cs_CZ');
+
+        $this->assertSame(
+            [new TwigFilter('money', $extension->moneyFilter(...))],
+            $extension->getFilters()
+        );
+    }
+
     /**
      * @dataProvider dataProvider
      */
     public function testMoneyFilter($locale, $currency, $scale, $grouping, $format, $input, $output)
     {
-        Locale::setDefault($locale);
+        \Locale::setDefault($locale);
         $extension = new MoneyExtension($locale);
         $input = new Money($input, new Currency($currency));
-        $this->assertEquals(
+        $this->assertSame(
             $extension->moneyFilter($input, $scale, $grouping, $format),
             $output
         );

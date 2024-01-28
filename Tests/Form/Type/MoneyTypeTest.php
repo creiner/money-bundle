@@ -1,14 +1,15 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace JK\MoneyBundle\Tests\Form\Type;
 
-use Money\Currency;
 use JK\MoneyBundle\Form\Type\MoneyType;
+use Money\Currency;
 use Symfony\Component\Form\PreloadedExtension;
 use Symfony\Component\Form\Test\TypeTestCase;
 use Symfony\Component\Intl\Util\IntlTestHelper;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
-use Locale;
 
 /**
  * Class MoneyTypeTest.
@@ -26,31 +27,22 @@ class MoneyTypeTest extends TypeTestCase
         parent::setUp();
     }
 
-    protected function getExtensions()
-    {
-        return [
-            new PreloadedExtension([
-                new MoneyType('CZK')
-            ], [])
-        ];
-    }
-
-    public function testPassMoneyPatternToView()
-    {
-        Locale::setDefault('en_US');
-
-        $view = $this->factory->create(MoneyType::class)->createView();
-
-        $this->assertSame('CZK {{ widget }}', $view->vars['money_pattern']);
-    }
-
     public function testPassLocalizedMoneyPatternToView()
     {
-        Locale::setDefault('cs_CZ');
+        \Locale::setDefault('cs_CZ');
 
         $view = $this->factory->create(MoneyType::class)->createView();
 
         $this->assertSame('{{ widget }} Kč', $view->vars['money_pattern']);
+    }
+
+    public function testPassMoneyPatternToView()
+    {
+        \Locale::setDefault('en_US');
+
+        $view = $this->factory->create(MoneyType::class)->createView();
+
+        $this->assertSame('CZK {{ widget }}', $view->vars['money_pattern']);
     }
 
     public function testPassOverriddenMoneyPatternToView()
@@ -60,15 +52,24 @@ class MoneyTypeTest extends TypeTestCase
         $this->assertSame('€ {{ widget }}', $view->vars['money_pattern']);
     }
 
+    public function testPassWrongTypedCurrencies()
+    {
+        $this->expectException(InvalidOptionsException::class);
+        $this->factory->create(MoneyType::class, null, ['currencies' => ['EUR']]);
+    }
+
     public function testPassWrongTypedCurrency()
     {
         $this->expectException(InvalidOptionsException::class);
         $this->factory->create(MoneyType::class, null, ['currency' => 123]);
     }
 
-    public function testPassWrongTypedCurrencies()
+    protected function getExtensions()
     {
-        $this->expectException(InvalidOptionsException::class);
-        $this->factory->create(MoneyType::class, null, ['currencies' => ['EUR']]);
+        return [
+            new PreloadedExtension([
+                new MoneyType('CZK'),
+            ], []),
+        ];
     }
 }

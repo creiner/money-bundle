@@ -1,13 +1,13 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace JK\MoneyBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
-use Symfony\Component\Intl\Intl;
-use NumberFormatter;
-use ResourceBundle;
+use Symfony\Component\Intl\Languages;
 
 /**
  * This class contains the configuration information for the bundle.
@@ -16,34 +16,31 @@ use ResourceBundle;
  */
 class Configuration implements ConfigurationInterface
 {
-    /** @var string **/
+    /** @var string * */
     private $currencyCode;
 
     /**
      * @param string $locale Locale for currency code
      */
-    public function  __construct($locale)
+    public function __construct(string $locale)
     {
-        $locales = class_exists(ResourceBundle::class)
-            ? ResourceBundle::getLocales('')
-            : Intl::getLanguageBundle()->getLocales();
+        $locales = class_exists(\ResourceBundle::class)
+            ? \ResourceBundle::getLocales('')
+            : Languages::getLanguageCodes();
 
-        if (false === in_array($locale, $locales)) {
+        if (false === \in_array($locale, $locales, true)) {
             throw new InvalidConfigurationException("Locale '$locale' is not valid.");
         }
 
-        if (2 == strlen($locale)) {
+        if (2 === \mb_strlen($locale)) {
             // Default US dollars
             $locale .= '_US';
         }
 
-        $formatter = new NumberFormatter($locale, NumberFormatter::CURRENCY);
-        $this->currencyCode = $formatter->getTextAttribute(NumberFormatter::CURRENCY_CODE);
+        $formatter = new \NumberFormatter($locale, \NumberFormatter::CURRENCY);
+        $this->currencyCode = $formatter->getTextAttribute(\NumberFormatter::CURRENCY_CODE);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder('jk_money');
@@ -59,7 +56,6 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->scalarNode('currency')->defaultValue($this->currencyCode)->end()
             ->end();
-        ;
 
         return $treeBuilder;
     }

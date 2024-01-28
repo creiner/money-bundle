@@ -1,12 +1,12 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace JK\MoneyBundle\Twig;
 
-use NumberFormatter, Locale;
-use Money\Money;
 use Money\Currencies\ISOCurrencies;
 use Money\Formatter\IntlMoneyFormatter;
-use Money\Formatter\DecimalMoneyFormatter;
+use Money\Money;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
@@ -18,10 +18,10 @@ use Twig\TwigFilter;
 class MoneyExtension extends AbstractExtension
 {
     final public const FORMAT_CURRENCY = true;
-    final public const FORMAT_DECIMAL  = false;
+    final public const FORMAT_DECIMAL = false;
+    final public const GROUPING_NONE = false;
 
     final public const GROUPING_USED = true;
-    final public const GROUPING_NONE = false;
 
     public function __construct(private $locale)
     {
@@ -36,9 +36,9 @@ class MoneyExtension extends AbstractExtension
 
     public function moneyFilter(Money $money, $scale = 2, $groupingUsed = self::GROUPING_USED, $format = self::FORMAT_CURRENCY)
     {
-        $noFormatter = new NumberFormatter($this->locale, $format === self::FORMAT_CURRENCY ? NumberFormatter::CURRENCY : NumberFormatter::DECIMAL);
-        $noFormatter->setAttribute(NumberFormatter::GROUPING_USED, (int) $groupingUsed);
-        $noFormatter->setAttribute(NumberFormatter::FRACTION_DIGITS, $scale);
+        $noFormatter = new \NumberFormatter($this->locale, self::FORMAT_CURRENCY === $format ? \NumberFormatter::CURRENCY : \NumberFormatter::DECIMAL);
+        $noFormatter->setAttribute(\NumberFormatter::GROUPING_USED, (int) $groupingUsed);
+        $noFormatter->setAttribute(\NumberFormatter::FRACTION_DIGITS, $scale);
 
         $intlFormatter = new IntlMoneyFormatter($noFormatter, new ISOCurrencies());
 

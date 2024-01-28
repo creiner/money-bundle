@@ -15,10 +15,10 @@ use Rector\Symfony\Symfony61\Rector\Class_\CommandPropertyToAttributeRector;
 
 return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->paths([
-        __DIR__ . '/DependencyInjection',
-        __DIR__ . '/Form',
-        __DIR__ . '/Tests',
-        __DIR__ . '/Twig',
+        __DIR__.'/DependencyInjection',
+        __DIR__.'/Form',
+        __DIR__.'/Tests',
+        __DIR__.'/Twig',
     ]);
 
     // register a single rule
@@ -31,16 +31,15 @@ return static function (RectorConfig $rectorConfig): void {
 
     // define sets of rules
     $rectorConfig->sets([
-                            //LevelSetList::UP_TO_PHP_80
+                            // LevelSetList::UP_TO_PHP_80
                             LevelSetList::UP_TO_PHP_82,
 
                             PHPUnitSetList::PHPUNIT_90,
 
-                            //SetList::CODE_QUALITY,
+                            // SetList::CODE_QUALITY,
 
                             SymfonySetList::SYMFONY_64,
                             SymfonySetList::SYMFONY_CODE_QUALITY,
                             SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION,
-
                         ]);
 };

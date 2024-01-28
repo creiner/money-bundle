@@ -35,6 +35,7 @@
     "php": "^8.0",
     "ext-intl": "*",
     "symfony/framework-bundle": "^5.0 || ^6.0",
+    "symfony/intl": "^5.0 || ^6.0",
     "doctrine/orm": "^2.5",
     "moneyphp/money": "^4.0"
   },

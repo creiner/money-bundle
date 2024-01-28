@@ -1,24 +1,17 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace JK\MoneyBundle\Tests\DependencyInjection;
 
-use PHPUnit\Framework\TestCase;
 use JK\MoneyBundle\DependencyInjection\JKMoneyExtension;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
 
 class JKMoneyExtensionTest extends TestCase
 {
-    public function testParameterNotFoundException()
-    {
-        $this->expectException(ParameterNotFoundException::class);
-        $container = new ContainerBuilder();
-        $loader = new JKMoneyExtension();
-        $config = [];
-        $loader->load([$config], $container);
-    }
-
     public function testInvalidConfigurationException()
     {
         $this->expectException(InvalidConfigurationException::class);
@@ -53,5 +46,14 @@ class JKMoneyExtensionTest extends TestCase
         $config = [];
         $loader->load([$config], $container);
         $this->assertTrue($container->hasDefinition(\JK\MoneyBundle\Twig\MoneyExtension::class));
+    }
+
+    public function testParameterNotFoundException()
+    {
+        $this->expectException(ParameterNotFoundException::class);
+        $container = new ContainerBuilder();
+        $loader = new JKMoneyExtension();
+        $config = [];
+        $loader->load([$config], $container);
     }
 }
