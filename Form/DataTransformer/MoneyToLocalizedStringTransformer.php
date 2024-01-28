@@ -20,19 +20,16 @@ use Symfony\Component\Form\Extension\Core\DataTransformer\NumberToLocalizedStrin
  */
 class MoneyToLocalizedStringTransformer implements DataTransformerInterface
 {
-    private Currency $currency;
+    private readonly Currencies $currencies;
 
-    private Currencies $currencies;
+    private readonly NumberToLocalizedStringTransformer $numberToLocalizedStringTransformer;
 
-    private NumberToLocalizedStringTransformer $numberToLocalizedStringTransformer;
+    private readonly DecimalMoneyFormatter $decimalMoneyFormatter;
 
-    private DecimalMoneyFormatter $decimalMoneyFormatter;
+    private readonly DecimalMoneyParser $decimalMoneyParser;
 
-    private DecimalMoneyParser $decimalMoneyParser;
-
-    public function __construct(Currency $currency, ?int $scale = null, ?bool $grouping = false, ?Currencies $currencies = null)
+    public function __construct(private readonly Currency $currency, ?int $scale = null, ?bool $grouping = false, ?Currencies $currencies = null)
     {
-        $this->currency = $currency;
         $this->currencies = $currencies ?: new ISOCurrencies();
         $this->numberToLocalizedStringTransformer = new NumberToLocalizedStringTransformer($scale, $grouping);
         $this->decimalMoneyFormatter = new DecimalMoneyFormatter($this->currencies);
