@@ -32,7 +32,7 @@ class MoneyType extends AbstractType
         $this->currency = new Currency($currencyCode);
     }
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->addViewTransformer(
@@ -46,12 +46,12 @@ class MoneyType extends AbstractType
         ;
     }
 
-    public function buildView(FormView $view, FormInterface $form, array $options)
+    public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $view->vars['money_pattern'] = self::getPattern($options['currency']->getCode());
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults(['currency' => $this->currency, 'scale' => 2, 'grouping' => false, 'compound' => false, 'currencies' => null]);
         $resolver->setNormalizer('currency', function (OptionsResolver $resolver, $currency) {
@@ -66,7 +66,7 @@ class MoneyType extends AbstractType
         $resolver->setAllowedTypes('currencies', ['null', Currencies::class]);
     }
 
-    public function getBlockPrefix()
+    public function getBlockPrefix(): string
     {
         return 'money';
     }

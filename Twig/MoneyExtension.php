@@ -23,18 +23,25 @@ class MoneyExtension extends AbstractExtension
 
     final public const GROUPING_USED = true;
 
-    public function __construct(private $locale)
+    public function __construct(private readonly string $locale)
     {
     }
 
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new TwigFilter('money', $this->moneyFilter(...)),
         ];
     }
 
-    public function moneyFilter(Money $money, $scale = 2, $groupingUsed = self::GROUPING_USED, $format = self::FORMAT_CURRENCY)
+    /**
+     * @param Money $money
+     * @param int $scale
+     * @param true $groupingUsed
+     * @param true $format
+     * @return array|string
+     */
+    public function moneyFilter(Money $money, int $scale = 2, bool $groupingUsed = self::GROUPING_USED, bool $format = self::FORMAT_CURRENCY): array|string
     {
         $noFormatter = new \NumberFormatter($this->locale, self::FORMAT_CURRENCY === $format ? \NumberFormatter::CURRENCY : \NumberFormatter::DECIMAL);
         $noFormatter->setAttribute(\NumberFormatter::GROUPING_USED, (int) $groupingUsed);

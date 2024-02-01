@@ -17,7 +17,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
  */
 class JKMoneyExtension extends Extension implements PrependExtensionInterface
 {
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $locale = $container->getParameter('kernel.default_locale');
         $configuration = new Configuration($locale);
@@ -37,7 +37,7 @@ class JKMoneyExtension extends Extension implements PrependExtensionInterface
         }
     }
 
-    public function prepend(ContainerBuilder $container)
+    public function prepend(ContainerBuilder $container): void
     {
         $container->prependExtensionConfig('doctrine', [
             'orm' => [

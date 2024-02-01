@@ -31,15 +31,15 @@ return static function (RectorConfig $rectorConfig): void {
 
     // define sets of rules
     $rectorConfig->sets([
-                            // LevelSetList::UP_TO_PHP_80
-                            LevelSetList::UP_TO_PHP_82,
+        // LevelSetList::UP_TO_PHP_80
+        LevelSetList::UP_TO_PHP_82,
 
-                            PHPUnitSetList::PHPUNIT_90,
+        PHPUnitSetList::PHPUNIT_90,
 
-                            // SetList::CODE_QUALITY,
+        // SetList::CODE_QUALITY,
 
-                            SymfonySetList::SYMFONY_64,
-                            SymfonySetList::SYMFONY_CODE_QUALITY,
-                            SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION,
-                        ]);
+        SymfonySetList::SYMFONY_64,
+        SymfonySetList::SYMFONY_CODE_QUALITY,
+        SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION,
+    ]);
 };

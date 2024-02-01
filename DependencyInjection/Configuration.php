@@ -41,7 +41,7 @@ class Configuration implements ConfigurationInterface
         $this->currencyCode = $formatter->getTextAttribute(\NumberFormatter::CURRENCY_CODE);
     }
 
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('jk_money');
 
